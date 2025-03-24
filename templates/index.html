@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Resume Screening</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>AI Resume Screening</h1>
+        <p class="tagline">Upload your resume text and get an instant job category prediction</p>
+        
+        <textarea id="resume_text" placeholder="Paste your resume here..."></textarea>
+        
+        <button onclick="predictCategory()">🔍 Predict Category</button>
+        
+        <div class="result-container">
+            <h2>Prediction Result:</h2>
+            <p id="prediction_result">Awaiting input...</p>
+        </div>
+    </div>
+
+    <script>
+        function predictCategory() {
+            let resumeText = document.getElementById("resume_text").value.trim();
+            
+            if (resumeText === "") {
+                alert("⚠️ Please enter a resume text before predicting.");
+                return;
+            }
+
+            document.getElementById("prediction_result").innerHTML = "🔄 Analyzing...";
+            
+            fetch("/predict", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ resume: resumeText })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    document.getElementById("prediction_result").innerHTML = "❌ Error: " + data.error;
+                } else {
+                    document.getElementById("prediction_result").innerHTML = "✅ " + data.predicted_category;
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                document.getElementById("prediction_result").innerHTML = "❌ An error occurred.";
+            });
+        }
+    </script>
+</body>
+</html>
