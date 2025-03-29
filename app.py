@@ -6,8 +6,8 @@ from transformers import BertTokenizer, BertModel
 import numpy as np
 import os
 
-MODEL_PATH = r"A:\Visual Files\Machine Learning Project\Resume Screening System\resume_classifier_bert.h5"
-ENCODER_PATH = r"A:\Visual Files\Machine Learning Project\Resume Screening System\label_encoder.pkl"
+MODEL_PATH = r"\Resume Screening System\resume_classifier_bert.h5"
+ENCODER_PATH = r"\Resume Screening System\label_encoder.pkl"
 
 try:
     model = tf.keras.models.load_model(MODEL_PATH)
